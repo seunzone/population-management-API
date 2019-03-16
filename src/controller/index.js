@@ -64,4 +64,24 @@ export default class locationController {
       return res.status(500).json({ error: err.message });
     }
   }
+  /**
+     * @description - get all location
+     * @static
+     *
+     * @param {object} req - HTTP Request
+     * @param {object} res - HTTP Response
+     *
+     * @memberof locationController
+     *
+     * @returns {object} Class instance
+     */
+  async getAllLocation(req, res) {
+    try {
+      const locations = await Location.find();
+
+      return res.status(201).json(locations);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
 }
