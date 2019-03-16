@@ -49,3 +49,12 @@ export const validateLocation = async (req, res, next) => {
   }
   next();
 };
+
+export const validateLocationId = (req, res, next) => {
+  if (req.params.locationId.match(/^[0-9a-fA-F]{24}$/) == null) {
+    return res.status(400).json({
+      message: 'Invalid location id'
+    });
+  }
+  next();
+};
