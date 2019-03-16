@@ -84,4 +84,29 @@ export default class locationController {
       return res.status(500).json({ error: err.message });
     }
   }
+  /**
+     * @description - delete location
+     * @static
+     *
+     * @param {object} req - HTTP Request
+     * @param {object} res - HTTP Response
+     *
+     * @memberof locationController
+     *
+     * @returns {object} Class instance
+     */
+  async deleteLocation(req, res) {
+    try {
+      const { locationId } = req.params;
+      const location = await Location.findByIdAndRemove(locationId);
+
+      // Check if contact exist
+      if (!location) {
+        return res.status(404).send({ message: 'Location does not exist' });
+      }
+      return res.status(200).send({ message: 'Location successfully deleted' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
 }
