@@ -8,7 +8,7 @@ import Location from '../model';
  */
 export default class locationController {
   /**
-     * @description - Adds a new contact
+     * @description - Adds a new location
      * @static
      *
      * @param {object} req - HTTP Request
@@ -30,6 +30,36 @@ export default class locationController {
       const location = await newLocation.save();
 
       return res.status(201).json(location);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+  /**
+     * @description - updates location
+     * @static
+     *
+     * @param {object} req - HTTP Request
+     * @param {object} res - HTTP Response
+     *
+     * @memberof locationController
+     *
+     * @returns {object} Class instance
+     */
+  async updateLocation(req, res) {
+    try {
+      // Get locatiom id from params
+      const { locationId } = req.params;
+      await Location.findByIdAndUpdate(locationId, { $set: req.body });
+
+      const location = await Location.findById(locationId);
+
+      // Assign total residents
+      location.totalPopulation = parseInt(location.totalMale, 10) + parseInt(location.totalFemale, 10);
+
+      // save update
+      await location.save();
+
+      return res.status(200).json(location);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

@@ -13,6 +13,7 @@ const routes = (app) => {
       .send('Welcome to the population API');
   });
   app.post('/api/v1/locations', validateContact, returnJsonErrors, validateLocation, myLocation.newLocation);
+  app.put('/api/v1/locations/:locationId', myLocation.updateLocation);
 };
 
 export default routes;
